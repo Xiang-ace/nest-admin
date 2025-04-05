@@ -32,7 +32,8 @@ export function updateUser(data) {
   return request({
     url: '/system/user',
     method: 'put',
-    data: data
+    data: data,
+    isLoading: true
   })
 }
 

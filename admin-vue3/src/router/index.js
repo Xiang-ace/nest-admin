@@ -83,6 +83,20 @@ export const constantRoutes = [
         meta: { title: '个人中心', icon: 'user' }
       }
     ]
+  },
+  {
+    path: '/just-demo',
+    component: Layout,
+    hidden: true,
+    permissions: ['tool:gen:edit'],
+    children: [
+      {
+        path: '/userList',
+        component: () => import('@/views/system/user/just-demo/index.vue'),
+        name: 'justDemoUserList',
+        meta: { title: 'just-demo用户管理', activeMenu: '/tool/gen' }
+      }
+    ]
   }
 ]
 

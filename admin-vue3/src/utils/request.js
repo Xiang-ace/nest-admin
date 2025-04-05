@@ -8,6 +8,7 @@ import { saveAs } from 'file-saver'
 import useUserStore from '@/store/modules/user'
 
 let downloadLoadingInstance;
+let loadingInstance;
 // 是否显示重新登录
 export let isRelogin = { show: false };
 
@@ -22,6 +23,14 @@ const service = axios.create({
 
 // request拦截器
 service.interceptors.request.use(config => {
+  // 是否需要显示 loading，默认为 true
+  const isLoading = config.isLoading !== false
+  if (isLoading) {
+    loadingInstance = ElLoading.service({
+      text: "加载中...",
+      background: "rgba(0, 0, 0, 0.7)"
+    })
+  }
   // 是否需要设置 token
   const isToken = (config.headers || {}).isToken === false
   // 是否需要防止数据重复提交
@@ -61,12 +70,14 @@ service.interceptors.request.use(config => {
   }
   return config
 }, error => {
-    console.log(error)
-    Promise.reject(error)
+  loadingInstance?.close()
+  console.log(error)
+  Promise.reject(error)
 })
 
 // 响应拦截器
 service.interceptors.response.use(res => {
+    loadingInstance?.close()
     // 未设置状态码则默认成功状态
     const code = res.data.code || 200;
     // 获取错误信息
@@ -102,6 +113,7 @@ service.interceptors.response.use(res => {
     }
   },
   error => {
+    loadingInstance?.close()
     console.log('err' + error)
     let { message } = error;
     if (message == "Network Error") {

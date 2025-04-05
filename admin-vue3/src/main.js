@@ -17,7 +17,7 @@ import draggable from "dd-form-draggable"
 import VFormDesigner from '@/assets/draggable/dist/designer.es'
 import '@/assets/draggable/dist/designer.style.css';
 
-// 注册指令
+// 导入插件
 import plugins from './plugins' // plugins
 import { download } from '@/utils/request'
 

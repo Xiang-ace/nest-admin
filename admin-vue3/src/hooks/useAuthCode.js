@@ -53,8 +53,8 @@ const getUserCookie = (data) => {
   const password = Cookies.get('password')
   const rememberMe = Cookies.get('rememberMe')
   const form = {
-    userName: userName === undefined ? data.userName : userName,
-    password: password === undefined ? data.password : decrypt(password),
+    userName: userName === undefined ? data.userName || 'admin' : userName,
+    password: password === undefined ? data.password || '123456' : decrypt(password),
     rememberMe: rememberMe === undefined ? false : Boolean(rememberMe)
   }
   return form

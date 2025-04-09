@@ -2,5 +2,5 @@
   "singleQuote": true,
   "trailingComma": "all",
   "printWidth": 200,
-  "endOfLine": "auto",
+  "endOfLine": "auto"
 }

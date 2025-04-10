@@ -1,5 +1,6 @@
 import { ref } from 'vue'
 import { changeUserStatus, listUser, resetUserPwd, delUser, getUser, updateUser, addUser, deptTreeSelect } from '@/api/system/user'
+import { getToken } from '@/utils/auth'
 
 export default function useUser(proxy) {
   const queryParams = ref({
@@ -16,6 +17,12 @@ export default function useUser(proxy) {
   const userFormVisible = ref(false)
   const userInfo = ref({})
   const multipleSelection = ref([])
+  const uploadParams = reactive({
+    visible: false,
+    title: '上传文件',
+    headers: { Authorization: 'Bearer ' + getToken() },
+    action: import.meta.env.VITE_APP_BASE_API + '/system/user/importData'
+  }) 
 
   const { sys_normal_disable } = proxy.useDict('sys_normal_disable')
   const handleQuery = () => {
@@ -31,6 +38,7 @@ export default function useUser(proxy) {
       dateRange: '',
       deptId: ''
     }
+    handleQuery()
   }
   const handleStatusChange = (row) => {
     changeUserStatus(row.userId, row.status).then((response) => {
@@ -87,8 +95,12 @@ export default function useUser(proxy) {
       })
     })
   }
-  const handleImport = () => {}
-  const handleExport = () => {}
+  const handleImport = () => {
+    uploadParams.visible = true
+  }
+  const handleExport = () => {
+    proxy.download('system/user/export', queryParams.value, `用户数据_${new Date().getTime()}.xlsx`)
+  }
   const updateDeptId = (val) => {
     queryParams.value.deptId = val
     getUserList() // 更新部门ID后重新获取用户列表
@@ -101,6 +113,7 @@ export default function useUser(proxy) {
     userFormVisible,
     userInfo,
     multipleSelection,
+    uploadParams,
     handleQuery,
     resetQuery,
     handleStatusChange,

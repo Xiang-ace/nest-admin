@@ -100,6 +100,7 @@
     </el-row>
   </div>
   <userForm v-model:visible="userFormVisible" :userInfo="userInfo" @ok="getUserList" />
+  <uploadDialog v-model:uploadParams="uploadParams" />
 </template>
 
 <script setup>
@@ -107,6 +108,7 @@ import { onMounted, ref, watch, getCurrentInstance } from 'vue'
 import useTree from './hooks/useTree'
 import useUser from './hooks/useUser'
 import userForm from './components/userForm.vue'
+import uploadDialog from './components/uploadDialog.vue'
 
 // 获取组件实例，用于访问组件上下文和refs
 const { proxy } = getCurrentInstance()
@@ -120,6 +122,7 @@ const {
   userFormVisible,
   userInfo,
   multipleSelection,
+  uploadParams,
   handleSelectionChange,
   resetQuery,
   handleQuery,

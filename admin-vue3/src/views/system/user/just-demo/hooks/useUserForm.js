@@ -19,7 +19,7 @@ export default function useUserForm(props, emit) {
   })
   const { proxy } = getCurrentInstance()
   console.log('proxy:', proxy, proxy.useDict)
-  const { sys_user_sex } = proxy.useDict('sys_normal_disable', 'sys_user_sex')
+  const { sys_user_sex, sys_normal_disable } = proxy.useDict('sys_normal_disable', 'sys_user_sex')
   const deptOptions = ref([])
   const postOptions = ref([])
   const roleOptions = ref([])
@@ -95,6 +95,7 @@ export default function useUserForm(props, emit) {
     rules,
     deptOptions,
     sys_user_sex,
+    sys_normal_disable,
     postOptions,
     roleOptions,
     submitForm,
